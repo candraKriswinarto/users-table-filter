@@ -9,9 +9,8 @@ const column = [
   { heading: 'Registered Date', value: 'registered.date' },
 ]
 
-const Table = () => {
-  const { response, loading } = useAxios('');
-  console.log(response);
+const Table = ({ data }) => {
+  const { loading } = useAxios('');
 
   if(loading) {
     return <p>Loading....</p>
@@ -25,7 +24,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {response.map((item, index) => <TableRow item={item} column={column} key={index} />)}
+        {data.map((item, index) => <TableRow item={item} column={column} key={index} />)}
       </tbody>
     </table>
   )
