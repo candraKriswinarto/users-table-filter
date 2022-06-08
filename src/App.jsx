@@ -35,6 +35,7 @@ function App() {
           nextLabel=">"
           onPageChange={handlePageClick}
           pageRangeDisplayed={2}
+          forcePage={filter.page-1}
           pageCount={15}
           previousLabel="<"
           renderOnZeroPageCount={null}
