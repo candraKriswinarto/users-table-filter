@@ -2,6 +2,7 @@ import { useContext } from "react";
 import ReactPaginate from "react-paginate"
 import Filter from "./components/Filter"
 import InputSearch from "./components/InputSearch"
+import Reset from "./components/Reset";
 import Table from "./components/Table"
 import { UsersContext } from "./context/UsersContext";
 
@@ -22,9 +23,10 @@ function App() {
 
   return (
     <div className="max-w-5xl mx-auto mt-20 px-4">
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-6 items-end">
         <InputSearch />
         <Filter />
+        <Reset />
       </div>
       <Table />
       <div className="flex items-center justify-end">

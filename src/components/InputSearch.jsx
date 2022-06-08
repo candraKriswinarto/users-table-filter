@@ -6,7 +6,6 @@ const InputSearch = () => {
 
   const handleSearchInput = e => {
     setFilter({ ...filter, keyword: e.target.value });
-    console.log(filter);
     if(filter.gender) {
       fetchData(`?page=${filter.page}&pageSize=10&results=10&keyword=${e.target.value}&gender=${filter.gender}`);
     } else {
