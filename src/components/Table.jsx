@@ -1,5 +1,8 @@
 import useAxios from "../hooks/useAxios";
 import moment from "moment";
+import Skeleton from "./Skeleton";
+import { useContext } from "react";
+import { UsersContext } from "../context/UsersContext";
 
 const column = [
   { heading: 'Username', value: 'login.username' },
@@ -9,22 +12,27 @@ const column = [
   { heading: 'Registered Date', value: 'registered.date' },
 ]
 
-const Table = ({ data }) => {
-  const { loading } = useAxios('');
+const Table = () => {
+  const { response, loading } = useContext(UsersContext);
 
   if(loading) {
-    return <p>Loading....</p>
+    return (
+      <div>
+        <Skeleton className='h-10' />
+        <Skeleton className='mt-2 h-80' />
+      </div>
+    )
   }
 
   return (
-    <table className="w-full text-sm text-left text-gray-500">
+    <table className="w-full text-sm text-gray-500">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
           {column.map((item, index) => <TableHeadItem item={item} key={index} />)}
         </tr>
       </thead>
       <tbody>
-        {data.map((item, index) => <TableRow item={item} column={column} key={index} />)}
+        {response && response.map((item, index) => <TableRow item={item} column={column} key={index} />)}
       </tbody>
     </table>
   )

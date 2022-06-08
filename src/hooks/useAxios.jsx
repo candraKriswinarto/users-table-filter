@@ -1,31 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://randomuser.me/api/?results=100&seed=abc';
+axios.defaults.baseURL = 'https://randomuser.me/api';
 
-const useAxios = ({ url }) => {
-    const [response, setResponse] = useState([]);
-    const [error, setError] = useState('');
-    const [loading, setloading] = useState(true);
+const useAxios = () => {
+  const [response, setResponse] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    const fetchData = () => {
-        axios.get(url)
-            .then((res) => {
-                setResponse(res.data.results);
-            })
-            .catch((err) => {
-                setError(err);
-            })
-            .finally(() => {
-                setloading(false);
-            });
-    };
+  const fetchData = async (url) => {
+    try{
+      setLoading(true);
+      const res = await axios(url);
+      setResponse(res.data.results)
+    }catch(err) {
+      setError(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+  return {
+    response,
+    loading,
+    error,
+    fetchData: url => fetchData(url)
+  }
+}
 
-    useEffect(() => {
-        fetchData();
-    }, [url]);
-
-    return { response, error, loading };
-};
-
-export default useAxios;
+export default useAxios

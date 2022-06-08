@@ -1,31 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import ReactPaginate from "react-paginate"
 import Filter from "./components/Filter"
 import InputSearch from "./components/InputSearch"
 import Table from "./components/Table"
-import useAxios from "./hooks/useAxios";
+import { UsersContext } from "./context/UsersContext";
 
 function App() {
-  const { response, loading } = useAxios('');
-  const [currentItems, setCurrentItems] = useState(null);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 7;
-
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(response.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(response.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage]);
+  const { setFilter, filter, fetchData } = useContext(UsersContext);
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % response.length;
-    setItemOffset(newOffset);
+    setFilter({ ...filter, page: event.selected+1 });
+    let url = `?page=${event.selected+1}&pageSize=10&results=10`;
+    if(filter.gender) {
+      url += `&gender=${filter.gender}`;
+    }
+    if(filter.keyword) {
+      url += `&keyword=${filter.keyword}`;
+    }
+    fetchData(url);
   };
-
-  if(loading) {
-    return <p>Loading...</p>
-  }
 
   return (
     <div className="max-w-5xl mx-auto mt-20 px-4">
@@ -33,14 +26,14 @@ function App() {
         <InputSearch />
         <Filter />
       </div>
-      <Table data={currentItems} />
+      <Table />
       <div className="flex items-center justify-end">
         <ReactPaginate
           breakLabel="..."
           nextLabel=">"
           onPageChange={handlePageClick}
           pageRangeDisplayed={2}
-          pageCount={pageCount}
+          pageCount={15}
           previousLabel="<"
           renderOnZeroPageCount={null}
           containerClassName='inline-flex -space-x-px my-10'
