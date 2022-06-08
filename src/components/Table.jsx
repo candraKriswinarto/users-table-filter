@@ -19,7 +19,7 @@ const Table = () => {
     return (
       <div>
         <Skeleton className='h-10' />
-        <Skeleton className='mt-2 h-80' />
+        <Skeleton className='mt-2 h-96' />
       </div>
     )
   }
@@ -43,20 +43,22 @@ const TableRow = ({ item, column, index }) => (
   <tr key={index} className="border-b">
     {column.map((columnItem, index) => {
 
+      const renderTd = value => <td key={index} className="px-6 py-4">{value}</td>
+
       if(columnItem.value.includes('.')) {
         const itemSplit = columnItem.value.split('.');
         const itemValue = item[itemSplit[0]][itemSplit[1]];
 
         if(itemSplit.includes('date')) {
-          return <td key={index} className="px-6 py-4">{moment(itemValue).format('YYYY/MM/DD')}</td>
+          return renderTd(moment(itemValue).format('DD-MM-YYYY h:mm'));
         }
         if(itemSplit.includes('name')) {
-          return <td key={index} className="px-6 py-4">{`${itemValue} ${item[itemSplit[0]]['last']}`}</td>
+          return renderTd(`${itemValue} ${item[itemSplit[0]]['last']}`);
         }
-        return <td key={index} className="px-6 py-4">{itemValue}</td>
+        return renderTd(itemValue);
       }
 
-      return <td key={index} className="px-6 py-4">{item[`${columnItem.value}`]}</td>
+      return renderTd(item[`${columnItem.value}`]);
     })}
   </tr>
 )

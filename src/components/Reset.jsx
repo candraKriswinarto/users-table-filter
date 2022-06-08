@@ -14,7 +14,7 @@ const Reset = () => {
   }
 
   return (
-    <button onClick={handleReset} className="border border-gray-300 bg-gray-50 px-4 py-2 h-10 rounded-lg hover:bg-red-100">Reset Filter</button>
+    <button onClick={handleReset} className="text-sm border border-gray-300 bg-gray-50 px-4 py-2 h-10 rounded-lg hover:bg-red-100">Reset Filter</button>
   )
 }
 
